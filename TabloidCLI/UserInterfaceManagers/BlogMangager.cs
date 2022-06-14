@@ -37,6 +37,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "2":
                     return this;
                 case "3":
+                    Insert();
                     return this;
                 case "4":
                     return this;
@@ -57,6 +58,24 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 Console.WriteLine(blog);
             }
+        }
+
+        private void Insert()
+        {
+            Console.WriteLine("Enter the name of the blog: ");
+            Console.Write("> ");
+            string blogName = Console.ReadLine();
+
+            Console.WriteLine("Enter the URL for the blog");
+            Console.Write("> ");
+            string blogUrl = Console.ReadLine();
+            Blog newBlog = new Blog {
+                Title = blogName,
+                Url = blogUrl
+            };
+
+            _blogRepository.Insert(newBlog);
+
         }
     }
 
