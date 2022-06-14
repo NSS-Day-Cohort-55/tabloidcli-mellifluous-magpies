@@ -53,6 +53,15 @@ namespace TabloidCLI.UserInterfaceManagers
                     Console.WriteLine("Invalid Selection");
                     return this;
             }
+
+        }
+        private void List()
+        {
+            List<Blog> blogs = _blogRepository.GetAll();
+            foreach (Blog blog in blogs)
+            {
+                Console.WriteLine(blog);
+            }
         }
 
         private void Remove()
