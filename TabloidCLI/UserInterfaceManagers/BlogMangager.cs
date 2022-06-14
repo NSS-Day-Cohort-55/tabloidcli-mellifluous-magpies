@@ -20,7 +20,7 @@ namespace TabloidCLI.UserInterfaceManagers
         public IUserInterfaceManager Execute()
         {
             Console.WriteLine("Blog Menu");
-            Console.WriteLine(" 1) List Blog");
+            Console.WriteLine(" 1) List All Blogs");
             Console.WriteLine(" 2) Blog Details");
             Console.WriteLine(" 3) Add Blog");
             Console.WriteLine(" 4) Edit Blog");
@@ -32,7 +32,7 @@ namespace TabloidCLI.UserInterfaceManagers
             switch (choice)
             {
                 case "1":
-
+                    List();
                     return this;
                 case "2":
 
