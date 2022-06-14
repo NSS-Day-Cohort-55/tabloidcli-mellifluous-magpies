@@ -33,26 +33,34 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 case "1":
 
-                    break;
+                    return this;
                 case "2":
 
-                    break;
+                    return this;
                 case "3":
 
-                    break;
+                    return this;
                     
                 case "4":
 
-
-                    break;
+                    return this;
                 case "5":
-                    
+                    Remove();
                     return this;
                 case "0":
                     return _parentUI;
                 default:
                     Console.WriteLine("Invalid Selection");
                     return this;
+            }
+        }
+
+        private void Remove()
+        {
+            Author blogToDelete = Choose("Which blog would you like to remove?");
+            if (blogToDelete != null)
+            {
+                _blogRepository.Delete(blogToDelete.Id);
             }
         }
     }
