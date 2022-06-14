@@ -32,16 +32,20 @@ namespace TabloidCLI.UserInterfaceManagers
             switch (choice)
             {
                 case "1":
-                    List();
+
                     return this;
                 case "2":
+
                     return this;
                 case "3":
                     Insert();
                     return this;
+                    
                 case "4":
+
                     return this;
                 case "5":
+                    // Remove();
                     return this;
                 case "0":
                     return _parentUI;
@@ -76,7 +80,15 @@ namespace TabloidCLI.UserInterfaceManagers
 
             _blogRepository.Insert(newBlog);
 
-        }
+        // private void Remove()
+        // {
+        //     Author blogToDelete = Choose("Which blog would you like to remove?");
+        //     if (blogToDelete != null)
+        //     {
+        //         _blogRepository.Delete(blogToDelete.Id);
+        //     }
+        // }
     }
-
+    
+    }
 }
