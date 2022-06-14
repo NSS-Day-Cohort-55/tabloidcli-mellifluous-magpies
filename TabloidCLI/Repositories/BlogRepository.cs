@@ -100,7 +100,7 @@ namespace TabloidCLI
             }
         }
 
-        public Blog Get(int i)
+        public Blog Get(int id)
         {
             using (SqlConnection conn = Connection)
             {
@@ -108,7 +108,7 @@ namespace TabloidCLI
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = "SELECT Title, URL FROM Blog WHERE Id = @id";
-                    cmd.Parameters.AddWithValue("@id", i);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -117,7 +117,7 @@ namespace TabloidCLI
                         {
                             blog = new Blog
                             {
-                                Id = i,
+                                Id = id,
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
                                 Url = reader.GetString(reader.GetOrdinal("URL"))
                             };
