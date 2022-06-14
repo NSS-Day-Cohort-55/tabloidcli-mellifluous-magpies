@@ -40,7 +40,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
                     return this;
                 case "3":
-
+                    Insert();
                     return this;
                     
                 case "4":
@@ -107,6 +107,40 @@ namespace TabloidCLI.UserInterfaceManagers
         //         _blogRepository.Delete(blogToDelete.Id);
         //     }
         // }
-    }
+    
+        private void Insert()
+        {
+            Console.WriteLine("Enter the name of the blog: ");
+            Console.Write("> ");
+            string blogName = Console.ReadLine();
 
-}
+            Console.WriteLine("Enter the URL for the blog");
+            Console.Write("> ");
+            string blogUrl = Console.ReadLine();
+            Blog newBlog = new Blog {
+                Title = blogName,
+                Url = blogUrl
+            };
+            _blogRepository.Insert(newBlog);
+        }
+
+            
+
+            private void Remove()
+            {
+                Blog blogToDelete = Choose("Which blog would you like to remove?");
+                if (blogToDelete != null)
+                {
+                    _blogRepository.Delete(blogToDelete.Id);
+                }
+
+            }
+
+            private Blog Choose(String i = null)
+            {
+            return null;
+            }
+
+        }
+    
+    }
