@@ -67,7 +67,22 @@ namespace TabloidCLI
 
         public void Update(Blog blog)
         {
+             using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Blog
+                                        SET Title = @title,
+                                        URL = @url
+                                        WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@title", blog.Title);
+                    cmd.Parameters.AddWithValue("@url", blog.Url);
+                    cmd.Parameters.AddWithValue("@id", blog.Id);
 
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public void Delete(int id)
@@ -85,14 +100,32 @@ namespace TabloidCLI
             }
         }
 
-        public Blog Get(int i)
+        public Blog Get(int id)
         {
-            return null;
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT Title, URL FROM Blog WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        Blog blog = null;
+                        if (reader.Read())
+                        {
+                            blog = new Blog
+                            {
+                                Id = id,
+                                Title = reader.GetString(reader.GetOrdinal("Title")),
+                                Url = reader.GetString(reader.GetOrdinal("URL"))
+                            };
+                        }
+                        return blog;
+                    }
+                }
+            }
         }
-
-
-
-
     }
 }
-
