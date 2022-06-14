@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using TabloidCLI.Models;
+using System.Linq;
+
 
 namespace TabloidCLI.UserInterfaceManagers
 {
@@ -39,6 +41,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "3":
                     return this;
                 case "4":
+                    Edit();
                     return this;
                 case "5":
                     return this;
@@ -57,6 +60,39 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 Console.WriteLine(blog);
             }
+        }
+
+        private void Edit()
+        {
+            List<Blog> blogs = _blogRepository.GetAll();
+            foreach (Blog blog in blogs)
+            {
+                Console.WriteLine($"{blog.Id} - {blog.Title}");
+            }
+            Console.Write("Which blog would you like to edit?");
+            int selectedBlogId = int.Parse(Console.ReadLine());
+            Blog selectedBlog = blogs.FirstOrDefault(b => b.Id == selectedBlogId);
+
+            Console.Write("New Title: ");
+            string response = Console.ReadLine();
+            if(!string.IsNullOrWhiteSpace(response))
+            {
+                selectedBlog.Title = response;
+            }
+            
+
+            Console.Write("New URL: ");
+            string URLresponse = Console.ReadLine();
+            if(!string.IsNullOrWhiteSpace(URLresponse))
+            {
+                selectedBlog.Url = URLresponse;
+            }
+
+            _blogRepository.Update(selectedBlog);
+
+            Console.WriteLine("Blog has been successfully updated");
+            Console.Write("Press any key to continue: ");
+            Console.ReadKey();
         }
     }
 
