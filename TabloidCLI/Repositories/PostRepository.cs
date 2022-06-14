@@ -27,13 +27,13 @@ namespace TabloidCLI.Repositories
                     {
                         while (reader.Read())
                         {
-                            Post blog = new Post
+                            Post post = new Post
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
                                 Url = reader.GetString(reader.GetOrdinal("Url"))
                             };
-                            posts.Add(blog);
+                            posts.Add(post);
                         }
                     }
                 }
