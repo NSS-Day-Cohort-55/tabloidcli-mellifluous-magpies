@@ -32,27 +32,30 @@ namespace TabloidCLI.UserInterfaceManagers
             switch (choice)
             {
                 case "1":
-
-                    break;
+                    List();
+                    return this;
                 case "2":
-
-                    break;
+                    return this;
                 case "3":
-
-                    break;
-                    
+                    return this;
                 case "4":
-
-
-                    break;
+                    return this;
                 case "5":
-                    
                     return this;
                 case "0":
                     return _parentUI;
                 default:
                     Console.WriteLine("Invalid Selection");
                     return this;
+            }
+
+        }
+        private void List()
+        {
+            List<Blog> blogs = _blogRepository.GetAll();
+            foreach (Blog blog in blogs)
+            {
+                Console.WriteLine(blog);
             }
         }
     }
