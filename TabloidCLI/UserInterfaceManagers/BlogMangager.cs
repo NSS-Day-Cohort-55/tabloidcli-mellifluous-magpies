@@ -55,6 +55,37 @@ namespace TabloidCLI.UserInterfaceManagers
             }
 
         }
+        private Blog Choose(string prompt = null)
+        {
+            if (prompt == null)
+            {
+                prompt = "Please choose an Blog:";
+            }
+
+            Console.WriteLine(prompt);
+
+            List<Blog> blogs = _blogRepository.GetAll();
+
+            for (int i = 0; i < blogs.Count; i++)
+            {
+                Blog blog = blogs[i];
+                Console.WriteLine($" {i + 1}) {blog.Title}");
+            }
+            Console.Write("> ");
+
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                return blogs[choice - 1];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Invalid Selection");
+                return null;
+            }
+        }
+
         private void List()
         {
             List<Blog> blogs = _blogRepository.GetAll();
@@ -66,7 +97,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Remove()
         {
-            Author blogToDelete = Choose("Which blog would you like to remove?");
+            Blog blogToDelete = Choose("Which blog would you like to remove?");
             if (blogToDelete != null)
             {
                 _blogRepository.Delete(blogToDelete.Id);
