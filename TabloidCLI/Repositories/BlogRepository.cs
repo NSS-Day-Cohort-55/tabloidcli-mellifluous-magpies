@@ -20,6 +20,7 @@ namespace TabloidCLI
 
         public List<Blog> GetAll()
         {
+            List<Blog> blogs = new List<Blog>();
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
@@ -29,7 +30,6 @@ namespace TabloidCLI
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        List<Blog> blogs = new List<Blog>();
                         while (reader.Read())
                         {
                             Blog blog = new Blog
@@ -40,10 +40,10 @@ namespace TabloidCLI
                             };
                             blogs.Add(blog);
                         }
-                        return blogs;
                     }
                 }
             }
+            return blogs;
         }
 
         public void Update(Blog blog)
