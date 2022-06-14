@@ -99,14 +99,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.Write("Press any key to continue: ");
             Console.ReadKey();
         }
-        // private void Remove()
-        // {
-        //     Author blogToDelete = Choose("Which blog would you like to remove?");
-        //     if (blogToDelete != null)
-        //     {
-        //         _blogRepository.Delete(blogToDelete.Id);
-        //     }
-        // }
+        
     
         private void Insert()
         {
