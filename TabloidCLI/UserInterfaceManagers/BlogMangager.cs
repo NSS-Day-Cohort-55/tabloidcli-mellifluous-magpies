@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using TabloidCLI.Models;
+using System.Linq;
+
 
 namespace TabloidCLI.UserInterfaceManagers
 {
@@ -38,10 +40,11 @@ namespace TabloidCLI.UserInterfaceManagers
 
                     return this;
                 case "3":
-
+                    Insert();
                     return this;
                     
                 case "4":
+                    Edit();
 
                     return this;
                 case "5":
@@ -64,14 +67,73 @@ namespace TabloidCLI.UserInterfaceManagers
             }
         }
 
-        private void Remove()
+        private void Edit()
         {
-            Author blogToDelete = Choose("Which blog would you like to remove?");
-            if (blogToDelete != null)
+            List<Blog> blogs = _blogRepository.GetAll();
+            foreach (Blog blog in blogs)
             {
-                _blogRepository.Delete(blogToDelete.Id);
+                Console.WriteLine($"{blog.Id} - {blog.Title}");
             }
-        }
-    }
+            Console.Write("Which blog would you like to edit?");
+            int selectedBlogId = int.Parse(Console.ReadLine());
+            Blog selectedBlog = blogs.FirstOrDefault(b => b.Id == selectedBlogId);
 
-}
+            Console.Write("New Title: ");
+            string response = Console.ReadLine();
+            if(!string.IsNullOrWhiteSpace(response))
+            {
+                selectedBlog.Title = response;
+            }
+            
+
+            Console.Write("New URL: ");
+            string URLresponse = Console.ReadLine();
+            if(!string.IsNullOrWhiteSpace(URLresponse))
+            {
+                selectedBlog.Url = URLresponse;
+            }
+
+            _blogRepository.Update(selectedBlog);
+
+            Console.WriteLine("Blog has been successfully updated");
+            Console.Write("Press any key to continue: ");
+            Console.ReadKey();
+        }
+        
+    
+        private void Insert()
+        {
+            Console.WriteLine("Enter the name of the blog: ");
+            Console.Write("> ");
+            string blogName = Console.ReadLine();
+
+            Console.WriteLine("Enter the URL for the blog");
+            Console.Write("> ");
+            string blogUrl = Console.ReadLine();
+            Blog newBlog = new Blog {
+                Title = blogName,
+                Url = blogUrl
+            };
+            _blogRepository.Insert(newBlog);
+        }
+
+            
+
+            private void Remove()
+            {
+                Blog blogToDelete = Choose("Which blog would you like to remove?");
+                if (blogToDelete != null)
+                {
+                    _blogRepository.Delete(blogToDelete.Id);
+                }
+
+            }
+
+            private Blog Choose(String i = null)
+            {
+            return null;
+            }
+
+        }
+    
+    }
