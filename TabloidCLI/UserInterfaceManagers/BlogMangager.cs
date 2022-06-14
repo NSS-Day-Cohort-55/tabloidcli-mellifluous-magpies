@@ -45,7 +45,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
                     return this;
                 case "5":
-                    // Remove();
+                    Remove();
                     return this;
                 case "0":
                     return _parentUI;
@@ -77,18 +77,26 @@ namespace TabloidCLI.UserInterfaceManagers
                 Title = blogName,
                 Url = blogUrl
             };
-
             _blogRepository.Insert(newBlog);
+        }
 
-        // private void Remove()
-        // {
-        //     Author blogToDelete = Choose("Which blog would you like to remove?");
-        //     if (blogToDelete != null)
-        //     {
-        //         _blogRepository.Delete(blogToDelete.Id);
-        //     }
-        // }
-    }
+            
+
+            private void Remove()
+            {
+                Blog blogToDelete = Choose("Which blog would you like to remove?");
+                if (blogToDelete != null)
+                {
+                    _blogRepository.Delete(blogToDelete.Id);
+                }
+
+            }
+
+            private Blog Choose(String i = null)
+            {
+            return null;
+            }
+
+        }
     
     }
-}
