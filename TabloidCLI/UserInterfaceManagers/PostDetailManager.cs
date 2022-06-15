@@ -12,6 +12,7 @@ namespace TabloidCLI.UserInterfaceManagers
     {
         private IUserInterfaceManager _parentUi;
         private PostRepository _postRepository;
+        private TagRepository _tagRepository;
         private int _postId;
 
         public PostDetailManager(IUserInterfaceManager parentUi, string connectionString, int postId)
@@ -19,6 +20,7 @@ namespace TabloidCLI.UserInterfaceManagers
             _parentUi = parentUi;
             _postRepository = new PostRepository(connectionString);
             _postId = postId;
+            _tagRepository = new TagRepository(connectionString);
         }
 
         public IUserInterfaceManager Execute()
@@ -67,7 +69,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void AddTag ()
         {
-            throw new NotImplementedException();
+            
         }
         private void RemoveTag()
         {
