@@ -40,12 +40,51 @@ namespace TabloidCLI.Repositories
             }
             return posts;
         }
-    
+
 
         public Post Get(int id)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT p.Title, 
+                                               p.Url, 
+                                               p.PublishDateTime,
+                                               a.FirstName,
+                                               a.LastName,
+                                               b.Title AS BlogTitle
+                                               FROM Post p
+                                               LEFT JOIN Author a on p.AuthorId = a.Id
+                                               LEFT JOIN Blog b on p.BlogId = b.Id
+                                               WHERE p.Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        Post post = new Post();
+                        if (reader.Read())
+                        {
+                            post.Title = reader.GetString(reader.GetOrdinal("Title"));
+                            post.Url = reader.GetString(reader.GetOrdinal("Url"));
+                            post.PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime"));
+                            post.Author = new Author
+                            {
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName"))
+                            };
+                            post.Blog = new Blog
+                            {
+                                Title = reader.GetString(reader.GetOrdinal("BlogTitle"))
+                            };
+                        }
+                        return post;
+                    }
+                }
+            }
         }
+
 
         public List<Post> GetByAuthor(int authorId)
         {
@@ -173,7 +212,7 @@ namespace TabloidCLI.Repositories
 
                     post.Id = id;
 
-                    
+
                 }
                 conn.Close();
             }
