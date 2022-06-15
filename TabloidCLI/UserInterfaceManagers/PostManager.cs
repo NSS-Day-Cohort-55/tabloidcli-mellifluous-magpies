@@ -18,6 +18,8 @@ namespace TabloidCLI.UserInterfaceManagers
             _parentUI = parentUI;
             _postRepository = new PostRepository(connectionString);
             _connectionString = connectionString;
+            _authorRepository = new AuthorRepository(connectionString);
+            _blogRepository = new BlogRepository(connectionString);
         }
 
         public IUserInterfaceManager Execute()
@@ -113,7 +115,12 @@ namespace TabloidCLI.UserInterfaceManagers
 
             }
 
-            _authorRepository.GetAll();
+            List<Author> authors = _authorRepository.GetAll();
+
+            foreach (Author author in authors)
+            {
+                Console.WriteLine(author);
+            }
 
             
             Console.WriteLine("Choose an author");
@@ -136,9 +143,14 @@ namespace TabloidCLI.UserInterfaceManagers
                 }
                 
             }
-            updatedPost.Author = _authorRepository.Get(authorIndex - 1);
+            updatedPost.Author = authors[authorIndex - 1];
 
-            _blogRepository.GetAll();
+            List<Blog> blogs = _blogRepository.GetAll();
+
+            foreach (Blog blog in blogs)
+            {
+                Console.WriteLine(blog);
+            }
 
             Console.WriteLine("Choose a blog");
             Console.Write("> ");
@@ -160,7 +172,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 }
             
             }
-            updatedPost.Blog = _blogRepository.Get(blogIndex - 1);
+            updatedPost.Blog = blogs[blogIndex - 1];
 
             _postRepository.Update(updatedPost);
 
