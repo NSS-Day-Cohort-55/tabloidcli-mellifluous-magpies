@@ -16,12 +16,16 @@ namespace TabloidCLI.UserInterfaceManagers
 
         public IUserInterfaceManager Execute()
         {
+            Random random = new Random();
+
             Console.WriteLine("Choose a Background Color");
             Console.WriteLine(" 1) Blue");
             Console.WriteLine(" 2) Green");
-            Console.WriteLine(" 3) Magenta");
-            Console.WriteLine(" 4) White"); 
-            Console.WriteLine(" 5) Yellow");
+            Console.WriteLine(" 3) Pretty Mode");
+            Console.WriteLine(" 4) Mega Lame-o mode"); 
+            Console.WriteLine(" 5) Bee Mode");
+            Console.WriteLine(" 6) WACKY MODE! (warning)");
+            
 
 
             Console.Write("> ");
@@ -49,6 +53,11 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "5":
                     Console.BackgroundColor = ConsoleColor.Yellow;
                     Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Clear();
+                    return _parentUI;
+                case "6":
+                    Console.BackgroundColor = (ConsoleColor)random.Next(0,16);
+                    Console.ForegroundColor = (ConsoleColor)random.Next(0,16);
                     Console.Clear();
                     return _parentUI;
                 default:
