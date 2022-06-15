@@ -63,7 +63,19 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Edit()
         {
-            throw new NotImplementedException();
+            Post chosenPost = Choose();
+            Post updatedPost = new Post();
+
+            Console.WriteLine("Enter a new Title");
+            Console.Write("> ");
+            string newTitle = Console.ReadLine();
+
+            if (!String.IsNullOrWhiteSpace(newTitle))
+            {
+                updatedPost.Title = newTitle;
+            }
+
+
         }
 
         private Post Choose(string prompt = null)
