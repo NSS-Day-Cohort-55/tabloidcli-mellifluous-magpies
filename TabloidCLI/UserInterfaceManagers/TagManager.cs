@@ -131,8 +131,15 @@ namespace TabloidCLI.UserInterfaceManagers
             string response = Console.ReadLine().ToLower();
             if(response == "y")
             {
-                _tagRepository.Delete(tagToDelete.Id);
-                Console.WriteLine($"{tagToDelete.Name} deleted.");
+                try
+                {
+                    _tagRepository.Delete(tagToDelete.Id);
+                    Console.WriteLine($"{tagToDelete.Name} deleted.");
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Can't delete tag while associated with blog or post or authors.");
+                }
             }
             else if (response == "n")
             {
