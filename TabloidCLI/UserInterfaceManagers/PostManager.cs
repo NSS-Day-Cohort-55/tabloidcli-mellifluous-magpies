@@ -9,6 +9,8 @@ namespace TabloidCLI.UserInterfaceManagers
     {
         private readonly IUserInterfaceManager _parentUI;
         private PostRepository _postRepository;
+        private AuthorRepository _authorRepository;
+        private BlogRepository _blogRepository;
         private string _connectionString;
 
         public PostManager(IUserInterfaceManager parentUI, string connectionString)
@@ -53,8 +55,13 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void List()
         {
-            throw new NotImplementedException();
+            List<Post> posts = _postRepository.GetAll();
+            foreach (Post post in posts)
+            {
+                Console.WriteLine(post);
+            }
         }
+
 
         private void Add()
         {
@@ -63,6 +70,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Edit()
         {
+            List();
             Post chosenPost = Choose();
             Post updatedPost = new Post();
 
@@ -75,6 +83,86 @@ namespace TabloidCLI.UserInterfaceManagers
                 updatedPost.Title = newTitle;
             }
 
+            Console.WriteLine("Enter a new URL");
+            Console.Write("> ");
+
+            string newUrl = Console.ReadLine();
+
+            if (!String.IsNullOrWhiteSpace(newUrl))
+            {
+                updatedPost.Url = newUrl;
+            }
+
+            Console.WriteLine("Update publication date");
+            Console.Write("> ");
+
+            string dateString = Console.ReadLine();
+            DateTime newDate;
+
+            if (!String.IsNullOrWhiteSpace(dateString))
+            {
+                
+                bool testDate = DateTime.TryParse(dateString, out newDate);
+
+                while (!testDate)
+                {
+                    Console.WriteLine("Enter an updated publication date in a valid DateTime format");
+                    Console.Write("> ");
+                    testDate = DateTime.TryParse(Console.ReadLine(), out newDate);
+                }
+
+            }
+
+            _authorRepository.GetAll();
+
+            
+            Console.WriteLine("Choose an author");
+            Console.Write("> ");
+
+            int authorIndex=0;
+
+            string authorChoice = Console.ReadLine();
+
+            if (!String.IsNullOrWhiteSpace(authorChoice))
+            {
+                bool testNum = int.TryParse(authorChoice, out authorIndex);
+
+                while (!testNum)
+                {
+                    Console.WriteLine("Choose the number of an author");
+                    Console.Write("> ");
+
+                    authorChoice = Console.ReadLine();
+                }
+                
+            }
+            updatedPost.Author = _authorRepository.Get(authorIndex - 1);
+
+            _blogRepository.GetAll();
+
+            Console.WriteLine("Choose a blog");
+            Console.Write("> ");
+
+            int blogIndex = 0;
+
+            string blogChoice = Console.ReadLine();
+
+            if (!String.IsNullOrWhiteSpace(blogChoice))
+            {
+                bool testNum = int.TryParse(blogChoice, out blogIndex);
+
+                while (!testNum)
+                {
+                    Console.WriteLine("Choose the number of a blog");
+                    Console.Write("> ");
+
+                    blogChoice = Console.ReadLine();
+                }
+            
+            }
+            updatedPost.Blog = _blogRepository.Get(blogIndex - 1);
+
+            _postRepository.Update(updatedPost);
 
         }
 
