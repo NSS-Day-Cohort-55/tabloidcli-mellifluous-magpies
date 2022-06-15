@@ -121,7 +121,38 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Remove()
         {
-            throw new NotImplementedException();
+            Tag tagToDelete = Choose("Which tag would you like to delete?");
+            if(tagToDelete == null)
+            {
+                return;
+            }
+            Console.WriteLine();
+            Console.WriteLine($"Delete {tagToDelete.Name}? (Y/N)");
+            string response = Console.ReadLine().ToLower();
+            if(response == "y")
+            {
+                try
+                {
+                    _tagRepository.Delete(tagToDelete.Id);
+                    Console.WriteLine($"{tagToDelete.Name} deleted.");
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Can't delete tag while associated with blog or post or authors.");
+                }
+            }
+            else if (response == "n")
+            {
+                Console.WriteLine("Deletion canceled.");
+                return;
+            }
+            else if(string.IsNullOrWhiteSpace(response))
+            {
+                Console.WriteLine("Deletion canceled.");
+                return;
+            }
+            Console.Write("Press any key to return to menu: ");
+            Console.ReadKey();
         }
     }
 }
