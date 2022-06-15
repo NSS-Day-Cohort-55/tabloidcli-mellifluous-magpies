@@ -9,6 +9,8 @@ namespace TabloidCLI.UserInterfaceManagers
     {
         private readonly IUserInterfaceManager _parentUI;
         private PostRepository _postRepository;
+        private AuthorRepository _authorRepository;
+        private BlogRepository _blogRepository;
         private string _connectionString;
 
         public PostManager(IUserInterfaceManager parentUI, string connectionString)
@@ -16,6 +18,8 @@ namespace TabloidCLI.UserInterfaceManagers
             _parentUI = parentUI;
             _postRepository = new PostRepository(connectionString);
             _connectionString = connectionString;
+            _authorRepository = new AuthorRepository(connectionString);
+            _blogRepository = new BlogRepository(connectionString);
         }
 
         public IUserInterfaceManager Execute()
@@ -60,6 +64,7 @@ namespace TabloidCLI.UserInterfaceManagers
             }
         }
 
+
         private void Add()
         {
             throw new NotImplementedException();
@@ -67,7 +72,117 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Edit()
         {
-            throw new NotImplementedException();
+            List();
+            Post chosenPost = Choose();
+            
+
+            Console.WriteLine("Enter a new Title");
+            Console.Write("> ");
+            string newTitle = Console.ReadLine();
+
+            if (!String.IsNullOrWhiteSpace(newTitle))
+            {
+                chosenPost.Title = newTitle;
+            }
+
+
+            Console.WriteLine("Enter a new URL");
+            Console.Write("> ");
+
+            string newUrl = Console.ReadLine();
+
+            if (!String.IsNullOrWhiteSpace(newUrl))
+            {
+                chosenPost.Url = newUrl;
+            }
+
+
+            Console.WriteLine("Update publication date");
+            Console.Write("> ");
+
+            string dateString = Console.ReadLine();
+            DateTime newDate = chosenPost.PublishDateTime;
+
+            if (!String.IsNullOrWhiteSpace(dateString))
+            {
+
+                bool testDate = DateTime.TryParse(dateString, out newDate);
+
+                while (!testDate)
+                {
+                    Console.WriteLine("Enter an updated publication date in a valid DateTime format");
+                    Console.Write("> ");
+                    testDate = DateTime.TryParse(Console.ReadLine(), out newDate);
+
+                }
+                chosenPost.PublishDateTime = newDate;
+
+            }
+
+
+            
+
+            List<Author> authors = _authorRepository.GetAll();
+
+            foreach (Author author in authors)
+            {
+                Console.WriteLine(author);
+            }
+
+            
+            Console.WriteLine("Choose an author");
+            Console.Write("> ");
+
+            int authorIndex=0;
+
+            string authorChoice = Console.ReadLine();
+
+            if (!String.IsNullOrWhiteSpace(authorChoice))
+            {
+                bool testNum = int.TryParse(authorChoice, out authorIndex);
+
+                while (!testNum)
+                {
+                    Console.WriteLine("Choose the number of an author");
+                    Console.Write("> ");
+
+                    authorChoice = Console.ReadLine();
+                }
+                chosenPost.Author = authors[authorIndex - 1];
+            }
+            
+
+            List<Blog> blogs = _blogRepository.GetAll();
+
+            foreach (Blog blog in blogs)
+            {
+                Console.WriteLine(blog);
+            }
+
+            Console.WriteLine("Choose a blog");
+            Console.Write("> ");
+
+            int blogIndex = 0;
+
+            string blogChoice = Console.ReadLine();
+
+            if (!String.IsNullOrWhiteSpace(blogChoice))
+            {
+                bool testNum = int.TryParse(blogChoice, out blogIndex);
+
+                while (!testNum)
+                {
+                    Console.WriteLine("Choose the number of a blog");
+                    Console.Write("> ");
+
+                    blogChoice = Console.ReadLine();
+                }
+                chosenPost.Blog = blogs[blogIndex - 1];
+            }
+            
+
+            _postRepository.Update(chosenPost);
+
         }
 
         private Post Choose(string prompt = null)
