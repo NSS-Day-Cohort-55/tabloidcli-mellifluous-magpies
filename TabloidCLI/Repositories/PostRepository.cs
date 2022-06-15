@@ -20,7 +20,8 @@ namespace TabloidCLI.Repositories
                     cmd.CommandText = @"SELECT 
                                             Id, 
                                             Title,
-                                            Url 
+                                            Url,
+                                            PublishDateTime
                                       FROM Post;";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -31,7 +32,8 @@ namespace TabloidCLI.Repositories
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Url = reader.GetString(reader.GetOrdinal("Url"))
+                                Url = reader.GetString(reader.GetOrdinal("Url")),
+                                PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime"))
                             };
                             posts.Add(post);
                         }

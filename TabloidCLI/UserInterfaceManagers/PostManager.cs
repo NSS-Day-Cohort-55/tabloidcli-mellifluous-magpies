@@ -74,7 +74,7 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             List();
             Post chosenPost = Choose();
-            Post updatedPost = new Post();
+            
 
             Console.WriteLine("Enter a new Title");
             Console.Write("> ");
@@ -82,8 +82,9 @@ namespace TabloidCLI.UserInterfaceManagers
 
             if (!String.IsNullOrWhiteSpace(newTitle))
             {
-                updatedPost.Title = newTitle;
+                chosenPost.Title = newTitle;
             }
+
 
             Console.WriteLine("Enter a new URL");
             Console.Write("> ");
@@ -92,18 +93,19 @@ namespace TabloidCLI.UserInterfaceManagers
 
             if (!String.IsNullOrWhiteSpace(newUrl))
             {
-                updatedPost.Url = newUrl;
+                chosenPost.Url = newUrl;
             }
+
 
             Console.WriteLine("Update publication date");
             Console.Write("> ");
 
             string dateString = Console.ReadLine();
-            DateTime newDate;
+            DateTime newDate = chosenPost.PublishDateTime;
 
             if (!String.IsNullOrWhiteSpace(dateString))
             {
-                
+
                 bool testDate = DateTime.TryParse(dateString, out newDate);
 
                 while (!testDate)
@@ -111,9 +113,14 @@ namespace TabloidCLI.UserInterfaceManagers
                     Console.WriteLine("Enter an updated publication date in a valid DateTime format");
                     Console.Write("> ");
                     testDate = DateTime.TryParse(Console.ReadLine(), out newDate);
+
                 }
+                chosenPost.PublishDateTime = newDate;
 
             }
+
+
+            
 
             List<Author> authors = _authorRepository.GetAll();
 
@@ -141,9 +148,9 @@ namespace TabloidCLI.UserInterfaceManagers
 
                     authorChoice = Console.ReadLine();
                 }
-                
+                chosenPost.Author = authors[authorIndex - 1];
             }
-            updatedPost.Author = authors[authorIndex - 1];
+            
 
             List<Blog> blogs = _blogRepository.GetAll();
 
@@ -170,11 +177,11 @@ namespace TabloidCLI.UserInterfaceManagers
 
                     blogChoice = Console.ReadLine();
                 }
-            
+                chosenPost.Blog = blogs[blogIndex - 1];
             }
-            updatedPost.Blog = blogs[blogIndex - 1];
+            
 
-            _postRepository.Update(updatedPost);
+            _postRepository.Update(chosenPost);
 
         }
 
