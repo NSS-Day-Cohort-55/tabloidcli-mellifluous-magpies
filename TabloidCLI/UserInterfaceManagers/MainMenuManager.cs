@@ -18,6 +18,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine(" 4) Post Management");
             Console.WriteLine(" 5) Tag Management");
             Console.WriteLine(" 6) Search by Tag");
+            Console.WriteLine(" 7) Choose Terminal Background Color");
             Console.WriteLine(" 0) Exit");
 
             Console.Write("> ");
@@ -30,6 +31,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "4": return new PostManager(this, CONNECTION_STRING);
                 case "5": return new TagManager(this, CONNECTION_STRING);
                 case "6": return new SearchManager(this, CONNECTION_STRING);
+                case "7": return new ColorManager(this);
                 case "0":
                     Console.WriteLine("Good bye");
                     return null;

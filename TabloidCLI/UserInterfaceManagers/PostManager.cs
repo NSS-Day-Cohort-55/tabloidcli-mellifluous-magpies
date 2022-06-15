@@ -53,7 +53,11 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void List()
         {
-            throw new NotImplementedException();
+            List<Post> posts = _postRepository.GetAll();
+            foreach (Post post in posts)
+            {
+                Console.WriteLine(post);
+            }
         }
 
         private void Add()
