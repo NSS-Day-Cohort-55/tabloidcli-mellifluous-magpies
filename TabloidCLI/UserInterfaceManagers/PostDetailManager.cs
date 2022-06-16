@@ -65,6 +65,12 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine($"Published On: {post.PublishDateTime}");
             Console.WriteLine($"Blog: {post.Blog.Title}");
             Console.WriteLine($"Author: {post.Author.FullName}");
+            Console.WriteLine("Tags:");
+            foreach (Tag tag in post.Tags)
+            {
+                Console.WriteLine(" " + tag);
+            }
+            Console.WriteLine();
         }
 
         private void AddTag ()
@@ -89,9 +95,10 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.WriteLine("Choose a post number");
                 Console.Write("> ");
                 testTagIndex = int.TryParse(Console.ReadLine(), out tagIndex);
+
             }
 
-            _postRepository.InsertTag(posts[_postId -1], tags[tagIndex-1] );
+            _postRepository.InsertTag(posts[_postId-1], tags[tagIndex-1] );
 
 
         }

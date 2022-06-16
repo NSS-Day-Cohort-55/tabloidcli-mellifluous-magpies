@@ -56,30 +56,48 @@ namespace TabloidCLI.Repositories
                                                p.PublishDateTime,
                                                a.FirstName,
                                                a.LastName,
-                                               b.Title AS BlogTitle
+                                               b.Title AS BlogTitle,
+                                               t.Name,
+                                               t.Id AS TagId
                                                FROM Post p
                                                LEFT JOIN Author a on p.AuthorId = a.Id
                                                LEFT JOIN Blog b on p.BlogId = b.Id
+                                               LEFT JOIN PostTag pt on p.Id = pt.PostId
+                                               LEFT JOIN Tag t on pt.TagId = t.id
                                                WHERE p.Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        Post post = new Post();
-                        if (reader.Read())
+                        Post post = null;
+
+                        while (reader.Read())
                         {
-                            post.Title = reader.GetString(reader.GetOrdinal("Title"));
-                            post.Url = reader.GetString(reader.GetOrdinal("Url"));
-                            post.PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime"));
-                            post.Author = new Author
+                            if (post == null)
                             {
-                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                LastName = reader.GetString(reader.GetOrdinal("LastName"))
-                            };
-                            post.Blog = new Blog
+                                post = new Post();
+                                post.Title = reader.GetString(reader.GetOrdinal("Title"));
+                                post.Url = reader.GetString(reader.GetOrdinal("Url"));
+                                post.PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime"));
+                                post.Author = new Author
+                                {
+                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                    LastName = reader.GetString(reader.GetOrdinal("LastName"))
+                                };
+                                post.Blog = new Blog
+                                {
+                                    Title = reader.GetString(reader.GetOrdinal("BlogTitle"))
+                                };
+
+                            }
+                            if (!reader.IsDBNull(reader.GetOrdinal("TagId")))
                             {
-                                Title = reader.GetString(reader.GetOrdinal("BlogTitle"))
-                            };
+                                post.Tags.Add(new Tag()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("TagId")),
+                                    Name = reader.GetString(reader.GetOrdinal("Name")),
+                                });
+                            }
                         }
                         return post;
                     }
@@ -129,7 +147,7 @@ namespace TabloidCLI.Repositories
                                 LastName = reader.GetString(reader.GetOrdinal("LastName")),
                                 Bio = reader.GetString(reader.GetOrdinal("Bio")),
                             },
-                            Blog = new Blog()
+                            Blog= new Blog()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("BlogId")),
                                 Title = reader.GetString(reader.GetOrdinal("BlogTitle")),
