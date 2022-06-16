@@ -90,7 +90,7 @@ namespace TabloidCLI.Repositories
                                 LastName = reader.GetString(reader.GetOrdinal("LastName")),
                                 Bio = reader.GetString(reader.GetOrdinal("Bio")),
                             },
-                            Blog = new Blog()
+                            Blog= new Blog()
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("BlogId")),
                                 Title = reader.GetString(reader.GetOrdinal("BlogTitle")),
