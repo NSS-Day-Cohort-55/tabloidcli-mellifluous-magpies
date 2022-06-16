@@ -19,8 +19,8 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             _parentUi = parentUi;
             _postRepository = new PostRepository(connectionString);
-            _postId = postId;
             _tagRepository = new TagRepository(connectionString);
+            _postId = postId;
         }
 
         public IUserInterfaceManager Execute()
@@ -103,6 +103,5 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             throw new NotImplementedException();
         }
-
-    }
+}
 }
