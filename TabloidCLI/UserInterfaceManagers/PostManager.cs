@@ -78,7 +78,77 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Add()
         {
-            throw new NotImplementedException();
+            Post post = new Post();
+            Console.WriteLine("Post Title");
+            Console.Write("> ");
+            post.Title = Console.ReadLine();
+
+            Console.WriteLine("Enter URL");
+            Console.Write("> ");
+            post.Url = Console.ReadLine();
+
+            List<Author> authors = _authorRepository.GetAll();
+
+            for (int i = 0; i < authors.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {authors[i]}");
+            }
+
+            Console.WriteLine("Select author");
+            Console.Write("> ");
+
+            int authorIndex = 0;
+            bool testAuthor = int.TryParse(Console.ReadLine(), out authorIndex);
+
+            while (!testAuthor)
+            {
+                Console.WriteLine("Select number of author");
+                Console.Write("> ");
+                testAuthor = int.TryParse(Console.ReadLine(), out authorIndex);
+            }
+            post.Author = authors[authorIndex -1];
+
+            List<Blog> blogs = _blogRepository.GetAll();
+
+            for (int i = 0; i < blogs.Count; i++)
+            {
+                Console.WriteLine($"{i+1}) {blogs[i]}");
+            }
+
+            Console.WriteLine("Select blog");
+            Console.Write("> ");
+
+            int blogIndex = 0;
+            bool testBlog = int.TryParse(Console.ReadLine(), out blogIndex);
+
+            while (!testBlog)
+            {
+                Console.WriteLine("Select number of author");
+                Console.Write("> ");
+                testAuthor = int.TryParse(Console.ReadLine(), out blogIndex);
+            }
+            post.Blog = blogs[blogIndex - 1];
+
+
+
+            Console.WriteLine("Enter publish date");
+            Console.Write("> ");
+
+            DateTime date = DateTime.Now;
+
+            bool testDate = DateTime.TryParse(Console.ReadLine(), out date);
+
+            while (!testDate)
+            {
+                Console.WriteLine("Enter publish date in valid format");
+                Console.Write("> ");
+
+                testDate = DateTime.TryParse(Console.ReadLine(), out date);
+            }
+            post.PublishDateTime = date;
+
+            _postRepository.Insert(post);
+
         }
 
         private void Edit()
