@@ -169,7 +169,7 @@ namespace TabloidCLI
 
         public SearchResults<IContentTag> SearchAll(string tagName)
         {
-            List<IContentTag> results = new List<IContentTag>();
+            SearchResults<IContentTag> results = new SearchResults<IContentTag>();
 
             using (SqlConnection conn = Connection)
             {
