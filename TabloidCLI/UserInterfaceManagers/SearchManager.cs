@@ -34,6 +34,7 @@ namespace TabloidCLI.UserInterfaceManagers
                     SearchAuthors();
                     return this;
                 case "3":
+                    SearchPosts();
                     return this;
                 case "4":
                     return this;
@@ -61,13 +62,31 @@ namespace TabloidCLI.UserInterfaceManagers
                 results.Display();
             }
         }
+        private void SearchPosts()
+        {
+            Console.Write("Tag> ");
+            string tagName = Console.ReadLine();
 
-        private void SearchBlogs()
+            SearchResults<Post> results = _tagRepository.SearchPosts(tagName);
+
+            if (results.NoResultsFound)
+            {
+                Console.WriteLine($"No results for {tagName}");
+            }
+            else
+            {
+                Console.WriteLine($"Tag: {tagName}");
+                results.Display();
+            }
+        }
+
+         private void SearchBlogs()
         {
             Console.Write("Tag> ");
             string tagName = Console.ReadLine();
 
             SearchResults<Blog> results = _tagRepository.SearchBlogs(tagName);
+            
             if (results.NoResultsFound)
             {
                 Console.WriteLine($"No Blogs found with the tag '{tagName}'.");
