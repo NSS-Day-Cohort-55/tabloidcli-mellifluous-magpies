@@ -8,16 +8,16 @@ using TabloidCLI.Models;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
-    public class JournalManager : IUserInterfaceManager
+    public class NoteManager : IUserInterfaceManager
     {
         private readonly IUserInterfaceManager _parentUi;
-        private JournalRepository _journalRepository;
+        private NoteRepository _noteRepository;
         private string _connectionString;
 
-        public JournalManager(IUserInterfaceManager parentUi, string connectionString)
+        public NoteManager(IUserInterfaceManager parentUi, string connectionString)
         {
             _parentUi = parentUi;
-            _journalRepository = new JournalRepository(connectionString);
+            _noteRepository = new NoteRepository(connectionString);
             _connectionString = connectionString;
         }
 
@@ -25,10 +25,8 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             Console.WriteLine("Journal Menu");
             Console.WriteLine(" 1) List Journals");
-            Console.WriteLine(" 2) Journal Details");
-            Console.WriteLine(" 3) Add Journal");
-            Console.WriteLine(" 4) Edit Journal");
-            Console.WriteLine(" 5) Remove Journal");
+            Console.WriteLine(" 2) Add Journal");
+            Console.WriteLine(" 3) Remove Journal");
             Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
@@ -38,15 +36,12 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "1":
                     List();
                     return this;
+
                 case "2":
-                    return this;
-                case "3":
                     Add();
                     return this;
-                case "4":
-                    Edit();
-                    return this;
-                case "5":
+
+                case "3":
                     Remove();
                     return this;
                 case "0":
@@ -60,7 +55,7 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             throw new NotImplementedException();
         }
-        private JournalManager Choose(string prompt = null)
+        private Note Choose(string prompt = null)
         {
             throw new NotImplementedException();
         }
@@ -68,17 +63,10 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             throw new NotImplementedException();
         }
-        private void Edit()
-        {
-            throw new NotImplementedException();
-        }
+
         private void Remove()
         {
-            Journal journalToDelete = Choose("Which Journal Entry would you like to remove?");
-            if (journalToDelete != null)
-            {
-                _journalRepository.Delete(journalToDelete.Id);
-            }
+            throw new NotImplementedException();
         }
     }
 }
