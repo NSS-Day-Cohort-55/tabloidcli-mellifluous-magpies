@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TabloidCLI.Repositories;
+using TabloidCLI.Models;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
@@ -73,7 +74,11 @@ namespace TabloidCLI.UserInterfaceManagers
         }
         private void Remove()
         {
-            throw new NotImplementedException();
+            Journal journalToDelete = Choose("Which Journal Entry would you like to remove?");
+            if (journalToDelete != null)
+            {
+                _journalRepository.Delete(journalToDelete.Id);
+            }
         }
     }
 }
