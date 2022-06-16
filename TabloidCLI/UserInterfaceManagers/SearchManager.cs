@@ -104,7 +104,17 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.Write("Tag> ");
             string tag = Console.ReadLine();
 
-            _tagRepository.SearchAll(tag);
+           SearchResults<IContentTag> results = _tagRepository.SearchAll(tag);
+
+            if (results.NoResultsFound)
+            {
+                Console.WriteLine($"No Blogs found with the tag '{tag}'.");
+            }
+            else
+            {
+                Console.WriteLine($"Tag: {tag}");
+                results.Display();
+            }
         }
     }
 }

@@ -132,49 +132,10 @@ namespace TabloidCLI
                 }
             }
         }
-        public SearchResults<Post> SearchPosts(string tagName)
-        {
-            using (SqlConnection conn = Connection)
-            {
-                conn.Open();
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"SELECT p.id,
-                                            p.Title,
-                                            p.Url,
-                                            p.PublishDateTime,
-                                            t.Name
-                                        FROM Post p
-                                            LEFT JOIN PostTag pt on p.Id = pt.PostId
-                                            LEFT JOIN Tag t on t.Id = pt.TagId
-                                         WHERE t.Name LIKE @name";
-                    cmd.Parameters.AddWithValue("@name", $"%{tagName}%");
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    SearchResults<Post> results = new SearchResults<Post>();
-                    while(reader.Read())
-                    {
-                        Post post = new Post()
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Title = reader.GetString(reader.GetOrdinal("Title")),
-                            Url = reader.GetString(reader.GetOrdinal("URL")),
-                            PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime"))
-                        };
-                        results.Add(post);
-                    }
-                    reader.Close();
-
-                    return results;
-                }
-            }
-        }
-
-
 
         public SearchResults<Blog> SearchBlogs(string tag)
         {
-            using(SqlConnection conn = Connection)            
+            using(SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
@@ -206,9 +167,71 @@ namespace TabloidCLI
             }
         }
 
-        public void SearchAll(string tagName)
+        public SearchResults<IContentTag> SearchAll(string tagName)
         {
-            SearchResults<Author> author = SearchAuthors(tagName); 
+            List<IContentTag> results = new List<IContentTag>();
+
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = $@"SELECT b.Id,
+                                                b.Title,
+                                                p.Id,
+                                                p.Title,
+                                                a.Id,
+                                                a.FirstName,
+                                                a.LastName
+                                           FROM Tag t
+                                            LEFT JOIN BlogTag bt ON bt.TagId = t.Id
+                                            LEFT JOIN Blog b ON b.Id = bt.BlogId
+                                            LEFT JOIN Post p ON p.Id = p.PostId
+                                            LEFT JOIN Author a ON a.Id = p.AuthorId
+                                            WHERE t.Name LIKE @tag";
+
+                    cmd.Parameters.AddWithValue("@tag", tagName);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            IContentTag blog = new Blog
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Title = reader.GetString(reader.GetOrdinal("Title"))
+                            };
+
+                            results.Add(blog);
+
+                            IContentTag author = new Author()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName"))
+                            };
+
+                            results.Add(author);
+
+                            IContentTag post = new Post
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Title = reader.GetString(reader.GetOrdinal("Title"))
+                            };
+
+                            results.Add(post);
+
+
+                        }
+                    }
+                
+                }
+            }
+
+
+                return results;
+
         }
     }
 }
