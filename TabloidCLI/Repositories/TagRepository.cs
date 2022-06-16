@@ -166,5 +166,10 @@ namespace TabloidCLI
                 }
             }
         }
+
+        public void SearchAll(string tagName)
+        {
+            SearchResults<Author> author = SearchAuthors(tagName); 
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "3":
                     return this;
                 case "4":
+                    SearchAll();
                     return this;
                 case "0":
                     return _parentUI;
@@ -77,6 +78,14 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.WriteLine($"Tag: {tagName}");
                 results.Display();
             }
+        }
+
+        private void SearchAll()
+        {
+            Console.Write("Tag> ");
+            string tag = Console.ReadLine();
+
+            _tagRepository.SearchAll(tag);
         }
     }
 }
