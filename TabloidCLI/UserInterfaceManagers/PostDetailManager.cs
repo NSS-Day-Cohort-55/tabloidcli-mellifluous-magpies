@@ -95,9 +95,10 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.WriteLine("Choose a post number");
                 Console.Write("> ");
                 testTagIndex = int.TryParse(Console.ReadLine(), out tagIndex);
+
             }
 
-            _postRepository.InsertTag(posts[_postId], tags[tagIndex-1] );
+            _postRepository.InsertTag(posts[_postId-1], tags[tagIndex-1] );
 
 
         }

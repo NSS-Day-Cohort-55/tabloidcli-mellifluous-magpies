@@ -142,7 +142,8 @@ namespace TabloidCLI
                     cmd.CommandText = @"SELECT p.id,
                                             p.Title,
                                             p.Url,
-                                            p.PublishDateTime
+                                            p.PublishDateTime,
+                                            t.Name
                                         FROM Post p
                                             LEFT JOIN PostTag pt on p.Id = pt.PostId
                                             LEFT JOIN Tag t on t.Id = pt.TagId
