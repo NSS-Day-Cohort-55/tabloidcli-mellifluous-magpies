@@ -12,12 +12,14 @@ namespace TabloidCLI.UserInterfaceManagers
     {
         private IUserInterfaceManager _parentUi;
         private PostRepository _postRepository;
+        private TagRepository _tagRepository;
         private int _postId;
 
         public PostDetailManager(IUserInterfaceManager parentUi, string connectionString, int postId)
         {
             _parentUi = parentUi;
             _postRepository = new PostRepository(connectionString);
+            _tagRepository = new TagRepository(connectionString);
             _postId = postId;
         }
 
@@ -73,7 +75,31 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void AddTag ()
         {
-            throw new NotImplementedException();
+            List<Tag> tags = _tagRepository.GetAll();
+            List<Post> posts = _postRepository.GetAll();
+  
+            for (int i = 0; i < tags.Count; i++)
+            {
+                Console.WriteLine($"{i+1}) {tags[i]}");
+            
+            }
+
+            Console.WriteLine("Choose a tag");
+            Console.Write("> ");
+
+            int tagIndex = 0;
+            bool testTagIndex = int.TryParse(Console.ReadLine(), out tagIndex);
+
+            while (!testTagIndex)
+            {
+                Console.WriteLine("Choose a post number");
+                Console.Write("> ");
+                testTagIndex = int.TryParse(Console.ReadLine(), out tagIndex);
+            }
+
+            _postRepository.InsertTag(posts[_postId], tags[tagIndex-1] );
+
+
         }
         private void RemoveTag()
         {
@@ -83,5 +109,5 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             throw new NotImplementedException();
         }
-    }
+}
 }
