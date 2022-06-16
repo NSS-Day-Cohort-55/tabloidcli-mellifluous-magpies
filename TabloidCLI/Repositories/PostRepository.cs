@@ -53,6 +53,7 @@ namespace TabloidCLI.Repositories
                 {
                     cmd.CommandText = @"SELECT p.Title, 
                                                p.Url, 
+                                               p.Id,
                                                p.PublishDateTime,
                                                a.FirstName,
                                                a.LastName,
@@ -78,6 +79,7 @@ namespace TabloidCLI.Repositories
                                 post = new Post();
                                 post.Title = reader.GetString(reader.GetOrdinal("Title"));
                                 post.Url = reader.GetString(reader.GetOrdinal("Url"));
+                                post.Id = reader.GetInt32(reader.GetOrdinal("Id"));
                                 post.PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime"));
                                 post.Author = new Author
                                 {
