@@ -69,7 +69,31 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void AddTag ()
         {
+            List<Tag> tags = _tagRepository.GetAll();
+            List<Post> posts = _postRepository.GetAll();
+  
+            for (int i = 0; i < tags.Count; i++)
+            {
+                Console.WriteLine($"{i}) {tags[i]}");
             
+            }
+
+            Console.WriteLine("Choose a tag");
+            Console.Write("> ");
+
+            int tagIndex = 0;
+            bool testTagIndex = int.TryParse(Console.ReadLine(), out tagIndex);
+
+            while (!testTagIndex)
+            {
+                Console.WriteLine("Choose a post number");
+                Console.Write("> ");
+                testTagIndex = int.TryParse(Console.ReadLine(), out tagIndex);
+            }
+
+            _postRepository.InsertTag(posts[_postId], tags[tagIndex-1] );
+
+
         }
         private void RemoveTag()
         {
@@ -79,5 +103,6 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             throw new NotImplementedException();
         }
+
     }
 }
