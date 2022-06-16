@@ -132,6 +132,7 @@ namespace TabloidCLI
                 }
             }
         }
+
         public SearchResults<Post> SearchPosts(string tagName)
         {
             using (SqlConnection conn = Connection)
@@ -152,7 +153,7 @@ namespace TabloidCLI
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     SearchResults<Post> results = new SearchResults<Post>();
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         Post post = new Post()
                         {
@@ -170,11 +171,9 @@ namespace TabloidCLI
             }
         }
 
-
-
         public SearchResults<Blog> SearchBlogs(string tag)
         {
-            using(SqlConnection conn = Connection)            
+            using(SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
@@ -205,5 +204,6 @@ namespace TabloidCLI
                 }
             }
         }
+
     }
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TabloidCLI.Models
+namespace TabloidCLI.Models 
 {
-    public class Post
+    public class Post : IContentTag
     {
         public int Id { get; set; }
         public string Title { get; set; }
