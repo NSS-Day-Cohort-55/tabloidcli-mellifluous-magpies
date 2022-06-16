@@ -47,10 +47,13 @@ namespace TabloidCLI.UserInterfaceManagers
             }
         }
 
-        private void SearchAuthors()
+        private void SearchAuthors(string tagName = null)
         {
-            Console.Write("Tag> ");
-            string tagName = Console.ReadLine();
+            if (String.IsNullOrWhiteSpace(tagName))
+            {
+                tagName = GetTagChoice();
+
+            }
 
             SearchResults<Author> results = _tagRepository.SearchAuthors(tagName);
 
@@ -63,10 +66,13 @@ namespace TabloidCLI.UserInterfaceManagers
                 results.Display();
             }
         }
-        private void SearchPosts()
+        private void SearchPosts(string tagName = null)
         {
-            Console.Write("Tag> ");
-            string tagName = Console.ReadLine();
+            if (String.IsNullOrWhiteSpace(tagName))
+            {
+                tagName = GetTagChoice();
+
+            }
 
             SearchResults<Post> results = _tagRepository.SearchPosts(tagName);
 
@@ -81,13 +87,16 @@ namespace TabloidCLI.UserInterfaceManagers
             }
         }
 
-         private void SearchBlogs()
+         private void SearchBlogs(string tagName = null)
         {
-            Console.Write("Tag> ");
-            string tagName = Console.ReadLine();
+            if (String.IsNullOrWhiteSpace(tagName))
+            {
+                tagName = GetTagChoice();
+
+            }
 
             SearchResults<Blog> results = _tagRepository.SearchBlogs(tagName);
-            
+
             if (results.NoResultsFound)
             {
                 Console.WriteLine($"No Blogs found with the tag '{tagName}'.");
@@ -101,20 +110,20 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void SearchAll()
         {
+            string tagName = GetTagChoice();
+
+            SearchAuthors(tagName);
+            SearchPosts(tagName);
+            SearchBlogs(tagName);
+        }
+
+        private string GetTagChoice()
+        {
             Console.Write("Tag> ");
-            string tag = Console.ReadLine();
+            string tagName = Console.ReadLine();
 
-           SearchResults<IContentTag> results = _tagRepository.SearchAll(tag);
+            return tagName;
 
-            if (results.NoResultsFound)
-            {
-                Console.WriteLine($"No Blogs found with the tag '{tag}'.");
-            }
-            else
-            {
-                Console.WriteLine($"Tag: {tag}");
-                results.Display();
-            }
         }
     }
 }
