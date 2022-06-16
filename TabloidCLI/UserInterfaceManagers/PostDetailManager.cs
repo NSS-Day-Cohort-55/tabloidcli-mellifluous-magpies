@@ -74,7 +74,7 @@ namespace TabloidCLI.UserInterfaceManagers
   
             for (int i = 0; i < tags.Count; i++)
             {
-                Console.WriteLine($"{i}) {tags[i]}");
+                Console.WriteLine($"{i+1}) {tags[i]}");
             
             }
 

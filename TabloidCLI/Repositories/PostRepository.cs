@@ -215,7 +215,7 @@ namespace TabloidCLI.Repositories
                     post.Id = id;
 
 
-<<<<<<< HEAD
+
                 }
                 conn.Close();
             }
@@ -236,8 +236,7 @@ namespace TabloidCLI.Repositories
                     cmd.Parameters.AddWithValue("@tagId", tag.Id);
 
                     cmd.ExecuteNonQuery();
-=======
->>>>>>> main
+
                 }
                 conn.Close();
             }
